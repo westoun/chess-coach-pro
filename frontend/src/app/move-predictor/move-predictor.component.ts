@@ -24,14 +24,31 @@ export class MovePredictorComponent implements OnInit {
   }
 
   onNextClicked() {
+    this.currentMove = null;
     this.loadNewBoard();
+  }
+
+  onResetClicked(): void {
+    this.resetCurrentMove();
+    this.initializeCurrentBoard();
   }
 
   private evaluateBoard() {}
 
   private async loadNewBoard() {
+    this.resetCurrentMove();
     this.currentBoard = await this.movePredictorService.fetchRandomBoard();
+    this.initializeCurrentBoard();
+  }
+
+  private resetCurrentMove() {
     this.currentMove = null;
+  }
+
+  private async initializeCurrentBoard() {
+    if (!this.currentBoard) {
+      return;
+    }
 
     // Format legal moves to comply with the required format of chessground
     const dests: Map<Key, Key[]> = new Map();
@@ -69,6 +86,6 @@ export class MovePredictorComponent implements OnInit {
       return;
     }
 
-    const ground = Chessground(boardRef, config);
+    Chessground(boardRef, config);
   }
 }
