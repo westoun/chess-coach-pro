@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChessLogicService } from './chess-logic.service';
+import { MovePredictorService } from './move-predictor.service';
 
-describe('ChessLogicService', () => {
-  let service: ChessLogicService;
+describe('MovePredictorService', () => {
+  let service: MovePredictorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChessLogicService);
+    service = TestBed.inject(MovePredictorService);
   });
 
   it('should be created', () => {
