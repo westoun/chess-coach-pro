@@ -31,11 +31,29 @@ export class MovePredictorComponent implements OnInit {
 
   private async loadNewBoard() {
     this.currentBoard = await this.movePredictorService.fetchRandomBoard();
+    this.currentMove = null;
+
+    // Format legal moves to comply with the required format of chessground
+    const dests: Map<Key, Key[]> = new Map();
+    for (const move of this.currentBoard.legal_moves) {
+      const moveFrom: any = move.slice(0, 2);
+      const moveTo: any = move.slice(2, 4);
+
+      const existingTargets: Key[] | undefined = dests.get(moveFrom);
+
+      if (existingTargets) {
+        dests.set(moveFrom, [...existingTargets, moveTo]);
+      } else {
+        dests.set(moveFrom, [moveTo]);
+      }
+    }
 
     const config = {
       fen: this.currentBoard.fen,
       orientation: this.currentBoard.is_whites_move ? colors[0] : colors[1],
       movable: {
+        free: false,
+        dests: dests,
         events: {
           after: (orig: Key, dest: Key, metadata: MoveMetadata) => {
             const move = `${orig}${dest}`;
