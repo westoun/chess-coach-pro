@@ -17,5 +17,15 @@ export class MovePredictorService {
     return lastValueFrom(httpRequest);
   }
 
-  // public async isBestMove(fenBefore: string, move: string): boolean {}
+  public async isBestMove(fenBefore: string, move: string): Promise<boolean> {
+    const httpRequest = this.http
+      .get(environment.movePredictor.evaluateMoveEndpoint, {
+        params: {
+          fen: fenBefore,
+          move: move,
+        },
+      })
+      .pipe(map((res: any) => res));
+    return lastValueFrom(httpRequest);
+  }
 }

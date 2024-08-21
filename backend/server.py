@@ -25,6 +25,12 @@ def get_random_board():
     return board.__dict__
 
 
+@app.get("/move-predictor/evaluate")
+def is_best_move(fen: str, move: str):
+    best_move = chess_engine.get_best_move(fen=fen)
+    return best_move == move
+
+
 @app.get("/")
 def read_root(request: Request):
     return 200

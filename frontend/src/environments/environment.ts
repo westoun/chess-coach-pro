@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   movePredictor: {
     randomBoardEndpoint: 'http://localhost:8000/move-predictor/board',
+    evaluateMoveEndpoint: 'http://localhost:8000/move-predictor/evaluate',
   },
 };
 

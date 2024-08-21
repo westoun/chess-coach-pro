@@ -3,6 +3,7 @@ import { Chessground } from 'chessground';
 import { Key, MoveMetadata, FEN, colors } from 'chessground/types';
 import { MovePredictorService } from '../core/services/move-predictor.service';
 import Board from '../core/types/board';
+import { move } from 'chessground/drag';
 
 @Component({
   selector: 'app-move-predictor',
@@ -20,7 +21,7 @@ export class MovePredictorComponent implements OnInit {
   }
 
   onCheckMoveClicked() {
-    // fetch move
+    this.evaluateBoard();
   }
 
   onNextClicked() {
@@ -33,7 +34,19 @@ export class MovePredictorComponent implements OnInit {
     this.initializeCurrentBoard();
   }
 
-  private evaluateBoard() {}
+  private async evaluateBoard() {
+    if (!this.currentBoard || !this.currentMove) {
+      // TODO: Implement more feasible error handling.
+      return;
+    }
+
+    const isBestMove = await this.movePredictorService.isBestMove(
+      this.currentBoard.fen,
+      this.currentMove
+    );
+
+    console.log(isBestMove);
+  }
 
   private async loadNewBoard() {
     this.resetCurrentMove();
