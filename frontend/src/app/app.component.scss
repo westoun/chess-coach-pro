@@ -1,0 +1,9 @@
+.active {
+  background-color: transparent !important; /* Overwrite bootstrap default */
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

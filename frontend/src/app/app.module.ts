@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MovePredictorComponent } from './move-predictor/move-predictor.component';
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovePredictorComponent
+    MovePredictorComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,
