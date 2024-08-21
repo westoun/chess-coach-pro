@@ -21,8 +21,8 @@ app.add_middleware(
 @app.get("/move-predictor/board")
 def get_random_board():
     # TODO: make sure that max_moves isn't same as EOG.
-    fen = game_provider.get_random_board(max_moves=20)
-    return fen
+    board = game_provider.get_random_board(max_moves=21)
+    return board.__dict__
 
 
 @app.get("/")

@@ -5,6 +5,7 @@ from pandas import DataFrame
 import re
 from typing import List
 
+from types_ import Board
 from .interface import IGameProvider
 
 
@@ -40,7 +41,7 @@ class KaggleChesscomGameProvider(IGameProvider):
 
     def get_random_board(
         self, min_white_elo: int = 1500, min_black_elo: int = 1500, max_moves: int = 100
-    ) -> str:
+    ) -> Board:
         relevant_games = self.games.loc[
             (self.games["white_rating"] >= min_white_elo)
             & (self.games["black_rating"] >= min_black_elo)
@@ -54,6 +55,7 @@ class KaggleChesscomGameProvider(IGameProvider):
         random_game = relevant_games.sample(n=1)
         pgn: str = random_game["pgn"].values.tolist()[0]
 
+        # TODO: replace manual parsing with chess.pgn.read_game(pgn)
         moves: str = pgn.strip().split("\n")[-1]
         moves = re.sub(r"\{[^\{\}]+\}", "", moves)  # remove time information
         moves = re.sub(r"[0-9]{,2}\.{1,3} ", "", moves)  # remove move numbers
@@ -71,4 +73,8 @@ class KaggleChesscomGameProvider(IGameProvider):
 
             board.push_san(move)
 
-        return board.fen()
+        fen = board.fen()
+        legal_moves = [move.uci() for move in board.legal_moves]
+        is_whites_move = fen.strip().split()[1] == "w"
+
+        return Board(fen=fen, is_whites_move=is_whites_move, legal_moves=legal_moves)
